@@ -1,4 +1,6 @@
 import speech_recognition as sr
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os 
 
 def takecommand():
     command = sr.Recognizer()
@@ -22,7 +24,8 @@ def takecommand():
                 query = None  
     return query 
 
-content = takecommand()
-
-print(content)
-
+def ai(contents):
+    apikey ="AIzaSyDRyO5wnFamqsjZAcDDgZH-FmPcWLMAZec"
+    llm = ChatGoogleGenerativeAI(api_key=apikey,model = "gemini-1.5-flash")
+    result = llm.invoke(contents)
+    return result.content
