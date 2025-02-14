@@ -2,7 +2,6 @@ import streamlit as st
 from backend import takecommand,ai
 import time
 
-# @st.cache_data(show_spinner=False)
 def get_output():
     contents = takecommand()
     return ai(contents)
@@ -144,6 +143,7 @@ with st.container():
     )
 
 new_output = get_output()
+# TODO need to write code for content2 and content3
 if new_output != st.session_state.content1:
     st.session_state.content1 = new_output
     st.rerun()
