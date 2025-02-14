@@ -1,15 +1,18 @@
 import streamlit as st
 from backend import takecommand,ai
+import time
 
-
-@st.cache_data(show_spinner=False)
+# @st.cache_data(show_spinner=False)
 def get_output():
     contents = takecommand()
     return ai(contents)
 
-content1 = ""
-content2 = ""
-content3 = ""
+if 'content1' not in st.session_state:
+    st.session_state.content1 = ""
+if 'content2' not in st.session_state:
+    st.session_state.content2 = ""
+if 'content3' not in st.session_state:
+    st.session_state.content3 = ""
 
 st.set_page_config(layout="wide")
 light_mode = {
@@ -26,7 +29,7 @@ dark_mode = {
     "text": "white",
     "subheader": "#F5F5F5",
     "border": "#555555",
-    "sidebar_bg": "#1E1E1E", 
+    "sidebar_bg": "#585858", 
     "writing_area": "#333333"  
 }
 
@@ -66,6 +69,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
 col1, col2 = st.columns(2, gap="small")
 
 with col1:
@@ -86,7 +90,7 @@ with col1:
                 border-left: 5px solid {colors['border']};
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 ">
-                {content1}
+                {st.session_state.content1}
             </div>
             """, 
             unsafe_allow_html=True
@@ -110,7 +114,7 @@ with col2:
                 border-left: 5px solid {colors['border']};
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 ">
-                {content2}
+                {st.session_state.content2}
             </div>
             """, 
             unsafe_allow_html=True
@@ -133,8 +137,16 @@ with st.container():
             border-left: 5px solid {colors['border']};
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             ">
-            {content3}
+            {st.session_state.content3}
         </div>
         """, 
         unsafe_allow_html=True
     )
+
+new_output = get_output()
+if new_output != st.session_state.content1:
+    st.session_state.content1 = new_output
+    st.rerun()
+
+time.sleep(5)
+st.rerun()
