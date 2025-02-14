@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 from backend import takecommand,ai
 
-count = st_autorefresh(interval = 5000, key = "data_refresh")
+# count = st_autorefresh(interval = 5000, key = "data_refresh")
 
 @st.cache_data(show_spinner=False)
 def get_output():
@@ -68,8 +68,6 @@ def layout(content1,content2,content3):
 
 
 def main():
-    
     layout("","","")
-
 main()
 
