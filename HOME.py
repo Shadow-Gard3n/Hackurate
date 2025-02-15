@@ -2,6 +2,7 @@ import streamlit as st
 from backend import takecommand,ai
 import time
 
+
 if 'contents' not in st.session_state:
     st.session_state.contents = ""
 if 'content1' not in st.session_state:
@@ -140,13 +141,20 @@ with st.container():
         unsafe_allow_html=True
     )
 
+def end():
+    st.session_state.end = 1
 
-contents = takecommand()
-# TODO need to write code for content2 and content3
-if contents != st.session_state.contents:
-    st.session_state.contents = contents
-    st.session_state.content1 = ai(st.session_state.contents)
+st.write("")
+st.write("")
+st.button("FINISH",on_click=end)
+
+if 'end' not in st.session_state:
+    contents = takecommand()
+    # TODO need to write code for content2 and content3
+    if contents != st.session_state.contents:
+        st.session_state.contents = contents
+        st.session_state.content1 = ai(st.session_state.contents)
+        st.rerun()
+
+    time.sleep(2)
     st.rerun()
-
-time.sleep(2)
-st.rerun()
