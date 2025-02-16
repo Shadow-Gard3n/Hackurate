@@ -64,8 +64,6 @@ def home():
         st.session_state.content1 = ""
     if 'content2' not in st.session_state:
         st.session_state.content2 = ""
-    if 'content3' not in st.session_state:
-        st.session_state.content3 = ""
     if 'listening' not in st.session_state:
         st.session_state.listening = True  
 
@@ -189,7 +187,7 @@ def home():
                 border-left: 5px solid {colors['border']};
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 ">
-                {st.session_state.content3}
+                {st.session_state.contents}
             </div>
             """, 
             unsafe_allow_html=True
@@ -212,6 +210,7 @@ def home():
 
 if 'page' not in st.session_state:
     st.session_state.page = 1  
+    
 if st.session_state.page == 0:
     signup()
 elif st.session_state.page == 1:
