@@ -1,7 +1,7 @@
 import streamlit as st
 from backend import takecommand, ai
 import time
-
+from database import add_user, check_username_exists, authenticate_user
 
 # signup
 def signup():
@@ -16,10 +16,15 @@ def signup():
         st.session_state.Information["Password"] = st.text_input("Enter your Password", type="password")
         submitButton = st.form_submit_button(label="Submit")
         if submitButton:
-            # TODO authentication logic
-            st.success("Signup Successful!")
-            st.session_state.page = 1  
-            st.rerun()  
+            if check_username_exists(st.session_state.Information["Username"]):
+                st.error("Username already exists. Please choose a different one.")
+            else:
+                add_user(st.session_state.Information["Name"],
+                         st.session_state.Information["Username"],
+                         st.session_state.Information["Password"])
+                st.success("Signup Successful!")
+                st.session_state.page = 1 
+                st.rerun()
 
     st.caption("Already have an Account?")
     if st.button("Login"):
@@ -39,15 +44,13 @@ def login():
         submitButton = st.form_submit_button(label="Submit")
 
         if submitButton:
-            # TODO authentication logic
-            if (st.session_state.Authentication["Username"] == "admin" and 
-                st.session_state.Authentication["Password"] == "password"):
+            if authenticate_user(st.session_state.Authentication["Username"], 
+                                 st.session_state.Authentication["Password"]):
                 st.success("Login Successful!")
                 st.session_state.page = 2
                 st.rerun()  
             else:
-                st.error("Invalid Username or Password")
-
+                st.error("Invalid Username or Password")  
     st.caption("No Account Yet?")
     if st.button("Signup"):
         st.session_state.page = 0
@@ -87,7 +90,6 @@ def home():
         "button_text": "#E0E0E0"
     }
 
-    st.markdown("## Appearance")
     toggle = st.checkbox("Dark Mode")
 
     colors = darkmode if toggle else lightmode
@@ -201,8 +203,9 @@ def home():
     if st.session_state.listening:
         contents = takecommand()
         if contents != st.session_state.contents:
-            st.session_state.contents = contents
-            st.session_state.content1 += "\n\n\n\n" + ai(st.session_state.contents)
+            st.session_state.contents += "\n\n\n\n" + contents
+            st.session_state.content1 = ai(st.session_state.contents)[1]
+            st.session_state.content2 = ai(st.session_state.contents)[0]
             st.rerun()
 
         time.sleep(2)  
@@ -210,7 +213,6 @@ def home():
 
 if 'page' not in st.session_state:
     st.session_state.page = 1  
-    
 if st.session_state.page == 0:
     signup()
 elif st.session_state.page == 1:
