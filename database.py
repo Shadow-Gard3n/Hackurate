@@ -15,6 +15,10 @@ def add_user(name, username, password):
               (name, username, password))
     Database.commit()
 
+def check_username_exists(username):
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    return c.fetchone()
+
 def authenticate_user(username, password):
     c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
     return c.fetchone()  #returns none if not found
