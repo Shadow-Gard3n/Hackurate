@@ -22,7 +22,8 @@ Hackurate is an AI-powered assistant doctor designed to help in diagnosing patie
     ```
 2. Install required packages:  
     ```bash
-    pip install -r requirements.txt
+    pip install streamlit
+    pip install SpeechRecognition 
     ```
 3. Run the application:  
     ```bash
