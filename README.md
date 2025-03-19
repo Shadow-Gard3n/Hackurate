@@ -1,6 +1,6 @@
-# Hackurate  
+# LayAssist  
 
-Hackurate is an AI-powered assistant doctor designed to help in diagnosing patients. It uses speech recognition and AI models to suggest potential diagnoses and questions for patient interactions.
+LayAssist is an AI-powered assistant doctor designed to help in diagnosing patients. It uses speech recognition and AI models to suggest potential diagnoses and questions for patient interactions.
 
 ## Features  
 - Voice recognition for patient-doctor conversations.  
